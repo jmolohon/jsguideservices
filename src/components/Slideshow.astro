@@ -1,0 +1,85 @@
+---
+import { homeSlides } from "../data/site";
+---
+
+<div class="home-slideshow" data-slideshow>
+  <div class="slides">
+    {
+      homeSlides.map((slide, i) => (
+        <div class:list={["slide", { "is-active": i === 0 }]} data-slide-index={i}>
+          <img
+            src={slide.src}
+            alt={slide.alt}
+            width="515"
+            height="700"
+            loading={i === 0 ? "eager" : "lazy"}
+          />
+        </div>
+      ))
+    }
+  </div>
+  <button type="button" class="slideshow-nav slideshow-prev" aria-label="Previous slide">&lsaquo;</button>
+  <button type="button" class="slideshow-nav slideshow-next" aria-label="Next slide">&rsaquo;</button>
+  <div class="slideshow-dots" role="tablist" aria-label="Slideshow pages">
+    {
+      homeSlides.map((_, i) => (
+        <button
+          type="button"
+          class:list={[{ "is-active": i === 0 }]}
+          data-dot={i}
+          aria-label={`Go to slide ${i + 1}`}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector("[data-slideshow]");
+  if (root) {
+    const slides = Array.from(root.querySelectorAll(".slide"));
+    const dots = Array.from(root.querySelectorAll("[data-dot]"));
+    let index = 0;
+    let timer: ReturnType<typeof setInterval> | undefined;
+
+    function show(i: number) {
+      index = (i + slides.length) % slides.length;
+      slides.forEach((el, n) => el.classList.toggle("is-active", n === index));
+      dots.forEach((el, n) => el.classList.toggle("is-active", n === index));
+    }
+
+    function next() {
+      show(index + 1);
+    }
+    function prev() {
+      show(index - 1);
+    }
+    function start() {
+      stop();
+      timer = setInterval(next, 4500);
+    }
+    function stop() {
+      if (timer) clearInterval(timer);
+    }
+
+    root.querySelector(".slideshow-next")?.addEventListener("click", () => {
+      next();
+      start();
+    });
+    root.querySelector(".slideshow-prev")?.addEventListener("click", () => {
+      prev();
+      start();
+    });
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const n = Number((dot as HTMLElement).dataset.dot);
+        show(n);
+        start();
+      });
+    });
+
+    root.addEventListener("mouseenter", stop);
+    root.addEventListener("mouseleave", start);
+    start();
+  }
+</script>

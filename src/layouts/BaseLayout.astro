@@ -1,0 +1,65 @@
+---
+import Header from "../components/Header.astro";
+import Sidebar from "../components/Sidebar.astro";
+import { site } from "../data/site";
+import "../styles/site.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  currentPath?: string;
+  showSidebar?: boolean;
+}
+
+const {
+  title,
+  description = site.description,
+  currentPath = Astro.url.pathname,
+  showSidebar = true,
+} = Astro.props;
+
+const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.description}`;
+const path = currentPath.endsWith("/") || currentPath === "/" ? currentPath : `${currentPath}/`;
+---
+
+<!doctype html>
+<html lang="en-US" class="js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={new URL(path, site.url).href} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700&subset=latin,latin-ext"
+      rel="stylesheet"
+    />
+    <title>{pageTitle}</title>
+  </head>
+  <body class:list={["custom-background", "custom-font-enabled", { "full-width": !showSidebar }]}>
+    <div id="page" class="hfeed site">
+      <Header currentPath={path} />
+
+      <div id="main" class="wrapper site-main">
+        <div id="primary" class="site-content">
+          <div id="content" role="main">
+            <slot />
+          </div>
+        </div>
+
+        {showSidebar && <Sidebar />}
+      </div>
+
+      <footer id="colophon" class="site-footer" role="contentinfo">
+        <div class="site-info">
+          &copy; {new Date().getFullYear()}
+          {" "}
+          {site.name} &middot; Central Minnesota fishing guides
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

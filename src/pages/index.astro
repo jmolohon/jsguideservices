@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Slideshow from "../components/Slideshow.astro";
+import { site } from "../data/site";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+const intro = readFileSync(
+  join(process.cwd(), "src/content/html/home-intro.html"),
+  "utf8",
+);
+---
+
+<BaseLayout title="Home" description={site.description} currentPath="/">
+  <article class="post type-page status-publish hentry">
+    <div class="entry-content" set:html={intro} />
+    <Slideshow />
+  </article>
+</BaseLayout>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+type PageRecord = {
+  slug: string;
+  route: string;
+  title: string;
+  content: string;
+};
+
+export function getStaticPaths() {
+  const pagesPath = join(process.cwd(), "src/content/pages.json");
+  const allPages: PageRecord[] = JSON.parse(readFileSync(pagesPath, "utf8"));
+  return allPages
+    .filter((p) => p.slug !== "home-3")
+    .map((p) => ({
+      params: { slug: p.slug },
+      props: { page: p },
+    }));
+}
+
+interface Props {
+  page: PageRecord;
+}
+
+const { page } = Astro.props;
+
+// Prefer on-disk HTML fragment (easier to edit) when present
+let content = page.content;
+try {
+  content = readFileSync(
+    join(process.cwd(), `src/content/html/${page.slug}.html`),
+    "utf8",
+  );
+} catch {
+  // use JSON content
+}
+
+const displayTitle = page.title
+  .replace(/&#8211;/g, "–")
+  .replace(/&#8217;/g, "’")
+  .replace(/&#038;/g, "&");
+---
+
+<BaseLayout title={displayTitle} currentPath={page.route}>
+  <article
+    id={`post-${page.slug}`}
+    class="post type-page status-publish hentry"
+  >
+    <header class="entry-header">
+      <h1 class="entry-title">{displayTitle}</h1>
+    </header>
+    <div class="entry-content" set:html={content} />
+  </article>
+</BaseLayout>

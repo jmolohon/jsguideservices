@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Fish Weight Calculator</title><!--
+<link href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" rel="stylesheet" type="text/css" />-->
+<link type="text/css" href="https://code.jquery.com/ui/1.10.3/themes/start/jquery-ui.css" rel="stylesheet" />
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="js/fishcalc.js"></script>
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #ad845a;
+  color: #0f0f0f;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+label{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 75px;
+    text-align: right;
+padding-right: 5px;
+}
+input {
+  display: inline-block;
+  float: left;
+  background: transparent;
+}
+select {
+  background: #fff;
+}
+</style>
+</head>
+<body class="oneColFixCtr">
+<form style="width: 225px; text-align: left" id="form1" name="form1" method="post" action="">
+<h6>Calculate fish weight by adjusting the length &amp;	girth sliders .</h6>
+<div style="margin-bottom: 15px"><label for="Species">Select:</label><select id="Species" size="0" onchange="fnSpeciesChange(this.value)">
+<option value="0" selected="selected">Species</option>
+<option value="1">Walleye</option>
+<option value="2">Northern Pike</option>
+<option value="2">Muskie</option>
+<option value="3">Bass</option>
+<option value="0">Trout</option>
+<option value="4">Crappie</option>
+<option value="4">Bluegill</option>    </select></div>
+<div style="margin-top: 10px; clear: both">
+<div id="slider-horizontal" style="width: 180px; margin: 10px"></div>
+<div id="slider-vertical" style="height: 50px; margin-top: -40px; float: right"></div>
+</div>
+<div style="margin-bottom: 10px"><label for="amount">Length:</label><input type="text" id="amount" style="border: 0; width: 3em; color: #581c00; font-weight: bold" disabled="disabled" /></div>
+<div id="jsx" style="height: 20px; margin: 20px 0 10px 0"><label for="girth">Girth:</label><input type="text" id="girth" style="border: 0; width: 3em; color: #581c00; font-weight: bold" disabled="disabled" /></div>
+<div style="margin-top: 10px; clear: both"><label for="weight">Weight:</label><input type="text" id="weight" style="border: 0; width: 7em; color: #581c00; font-weight: bold" disabled="disabled" /></div>    </form>
+</body>
+</html>

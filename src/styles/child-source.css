@@ -1,0 +1,169 @@
+/*
+Theme Name:     Twenty Twelve Child
+Theme URI:      http://example.com/
+Description:    Child theme for the Twenty Twelve theme
+Author:         Your name here
+Author URI:     http://example.com/about/
+Template:       twentytwelve                             
+Version:        0.1.0
+*/
+
+@import url("../twentytwelve/style.css");
+
+.site-info {
+   display: none;
+}
+.js a {
+    text-decoration: none;
+}
+.widget_adrotate_widgets img { 
+    box-shadow: none; 
+} 
+@media screen and (min-width: 500px) {
+.jsem .jsno {
+   display: none;
+}
+
+  #page /* special block on all pages for contact info */
+  {
+  border:#764C29 5px outset;
+  }
+
+ 
+  #primary /* special block on all pages for contact info */
+  {
+  border:#A97B50 3px outset;
+  }
+  #content /* special block on all pages for contact info */
+  {
+  background: #FFF;
+  padding: 10px;
+  }
+
+  #secondary /* special block on all pages for contact info */
+  {
+  border:#764C29 3px outset;
+  background: #AD845A;
+  padding: 4px;
+  }
+body {
+color: #111;
+}
+
+.site-header h1 a,
+.site-title h1 a,
+.site-title h1 a:hover{
+	color: #085173;
+}
+
+/*  .site-title
+  {
+   background-image: url('http://jsguideservice.com/wp-content/uploads/2013/05/jsguide_logo.png'); background-repeat: no-repeat; background-position: top center; 
+  }
+*/
+
+
+
+.site-description h2 a {
+	color: #F3F3F3;
+}
+
+
+
+.site-header h2 a {
+	color: #F3F3F3;
+}
+
+.site-header h2 a:hover {
+	color: #FFF;
+}
+
+.main-navigation a {
+	color: #FFF;
+}
+.main-navigation a:hover {
+	color: #FFF;
+}
+
+.main-navigation li a {
+	background: transparent;
+	color: #F0F0F0;
+}
+.main-navigation li a:hover {
+	color: #FFF;
+}
+.main-navigation li ul li a {
+	background: transparent;
+	color: #F0F0F0;
+}
+.main-navigation li ul li a:hover {
+background: transparent;
+	color: #FFF;
+}
+
+	.main-navigation .current-menu-item > a,
+	.main-navigation .current-menu-ancestor > a,
+	.main-navigation .current_page_item > a,
+	.main-navigation .current_page_ancestor > a {
+		color: #FDFDFD;
+		font-weight: bold;
+	}
+
+.menu-toggle:active,
+.menu-toggle.toggled-on,
+button:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+input[type="reset"]:active {
+	color: #F0F0F0;
+}
+/* Small headers */
+.archive-title,
+.page-title,
+.widget-title,
+.entry-content th,
+.comment-content th {
+	color: #0F0F0F;
+}
+
+.widget-area .widget a {
+	color: #0F0F0F;
+}
+.widget-area .widget a:hover {
+	color: #000;
+}
+.current_page_item {
+	color: #FEFEFE;
+}
+
+#page{
+background: rgb(8,81,115); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(8,81,115,1) 0%, rgba(8,81,115,1) 32%, rgba(125,185,232,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(8,81,115,1)), color-stop(32%,rgba(8,81,115,1)), color-stop(100%,rgba(125,185,232,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(8,81,115,1) 0%,rgba(8,81,115,1) 32%,rgba(125,185,232,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(8,81,115,1) 0%,rgba(8,81,115,1) 32%,rgba(125,185,232,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(8,81,115,1) 0%,rgba(8,81,115,1) 32%,rgba(125,185,232,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(8,81,115,1) 0%,rgba(8,81,115,1) 32%,rgba(125,185,232,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#085173', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+}
+}
+
+@media screen and (min-width: 100px) and (max-width: 480px) {
+.jsem {
+	background-color:transparent;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:3px solid #84bbf3;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:10px 80px;
+	text-decoration:none;
+}.jsem:active {
+	position:relative;
+	top:1px;
+}
+}

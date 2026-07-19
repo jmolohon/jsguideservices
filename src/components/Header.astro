@@ -1,0 +1,52 @@
+---
+import { site, navItems } from "../data/site";
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+
+function isCurrent(href: string, path: string) {
+  if (href === "/") return path === "/" || path === "";
+  return path === href || path.startsWith(href);
+}
+---
+
+<header id="masthead" class="site-header" role="banner">
+  <hgroup>
+    <h1 class="site-title">
+      <a href="/" title={site.name} rel="home">{site.name}</a>
+    </h1>
+    <h2 class="site-description">{site.description}</h2>
+  </hgroup>
+
+  <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="Main">
+    <button class="menu-toggle" type="button" aria-controls="primary-menu" aria-expanded="false">
+      Menu
+    </button>
+    <a class="assistive-text" href="#content">Skip to content</a>
+    <div class="nav-menu">
+      <ul id="primary-menu">
+        {
+          navItems.map((item) => (
+            <li class:list={{ current_page_item: isCurrent(item.href, currentPath) }}>
+              <a href={item.href} aria-current={isCurrent(item.href, currentPath) ? "page" : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const nav = document.getElementById("site-navigation");
+  const toggle = nav?.querySelector(".menu-toggle");
+  toggle?.addEventListener("click", () => {
+    const open = nav?.classList.toggle("toggled-on");
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+</script>

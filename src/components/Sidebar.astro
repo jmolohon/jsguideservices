@@ -1,0 +1,40 @@
+---
+import { site, recommends } from "../data/site";
+
+const mailHref = `mailto:${site.email}?subject=${encodeURIComponent(site.emailSubject)}`;
+---
+
+<div id="secondary" class="widget-area" role="complementary">
+  <aside class="widget widget_text">
+    <h3 class="widget-title">Contact Us</h3>
+    <div class="textwidget">
+      <span class="js">
+        <a href={`tel:${site.phoneTel}`}>Phone: {site.phone}</a>
+        <br />
+        <a href={mailHref}>E-mail: {site.email}</a>
+      </span>
+    </div>
+  </aside>
+
+  <aside class="widget widget-recommends">
+    <h3 class="widget-title">Joe Recommends</h3>
+    {
+      recommends.map((item) => (
+        <a href={item.href} target="_blank" rel="noopener noreferrer" title={item.name}>
+          <img src={item.img} alt={item.name} width="140" loading="lazy" />
+        </a>
+      ))
+    }
+  </aside>
+
+  <aside class="widget widget-calc">
+    <h3 class="widget-title">What&rsquo;s it weigh?</h3>
+    <div class="textwidget">
+      <iframe
+        src="/calc/calc.html"
+        title="Fish weight calculator"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </aside>
+</div>
