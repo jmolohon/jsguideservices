@@ -5,8 +5,8 @@ export const site = {
   description: "Alexandria, Mille Lacs Lake Minnesota fishing guide",
   phone: "(320) 260-9056",
   phoneTel: "+13202609056",
-  email: "big.walleye@jsguideservice.com",
-  emailSubject: "Fishing Inquiry - jsguideservice.com",
+  email: "jsguideservices@gmail.com",
+  emailSubject: "Fishing Inquiry - jsguideservices.com",
   url: "https://jsguideservices.com",
 } as const;
 
