@@ -12,7 +12,7 @@
   /** Length-only species: fixed aspect (sy/sx) so proportions stay representative */
   const SPECIES_ASPECT = {
     pike: 0.42,
-    muskie: 0.5625, // 0.45 * 1.25 — fuller default height
+    muskie: 0.675, // taller again (~0.45 * 1.5)
     crappie: 1.05,
     bluegill: 1.12,
   };
@@ -113,7 +113,7 @@
         sy = Math.min(sy, sx * 0.5);
       }
       if (speciesKey === "muskie") {
-        sy = Math.min(sy, sx * 0.625); // 0.5 * 1.25
+        sy = Math.min(sy, sx * 0.75);
       }
     }
 

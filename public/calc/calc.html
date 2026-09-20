@@ -72,6 +72,8 @@
       align-items: center;
       justify-content: center;
       overflow: visible;
+      z-index: 1;
+      pointer-events: none;
     }
     .fish-viz__svg {
       width: 100%;
@@ -100,6 +102,7 @@
       grid-template-columns: 12px 16px 14px;
       align-items: stretch;
       column-gap: 4px;
+      z-index: 3;
     }
     .dim-girth[hidden] { display: none !important; }
     .dim-girth__name {
@@ -130,6 +133,9 @@
       white-space: nowrap;
       padding-left: 2px;
       margin-left: 2px;
+      text-shadow: 0 0 3px #ad845a, 0 0 6px #ad845a;
+      position: relative;
+      z-index: 3;
     }
 
     /* Length: label above, slider, value below */
@@ -144,6 +150,7 @@
       align-items: stretch;
       justify-content: flex-start;
       gap: 4px;
+      z-index: 3;
     }
     .dim-length__name,
     .dim-length__value {
@@ -152,6 +159,9 @@
       font-weight: 700;
       color: #581c00;
       line-height: 1.1;
+      text-shadow: 0 0 3px #ad845a, 0 0 6px #ad845a;
+      position: relative;
+      z-index: 3;
     }
 
     .dim-length__rail {
