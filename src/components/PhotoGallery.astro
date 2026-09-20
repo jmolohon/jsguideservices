@@ -1,0 +1,83 @@
+﻿---
+export type GalleryPhoto = {
+  src: string;
+  alt: string;
+};
+
+interface Props {
+  photos: GalleryPhoto[];
+}
+
+const { photos } = Astro.props;
+---
+
+<div class="photo-gallery" data-photo-gallery>
+  {
+    photos.map((photo, index) => (
+      <button
+        type="button"
+        class="photo-gallery__item"
+        data-gallery-index={index}
+        aria-label={`View larger: ${photo.alt}`}
+      >
+        <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+      </button>
+    ))
+  }
+</div>
+
+<dialog class="photo-lightbox" data-photo-lightbox aria-label="Enlarged photo">
+  <form method="dialog" class="photo-lightbox__close-row">
+    <button type="submit" class="photo-lightbox__close" aria-label="Close">
+      Close
+    </button>
+  </form>
+  <img data-lightbox-img alt="" />
+  <p class="photo-lightbox__caption" data-lightbox-caption></p>
+  <div class="photo-lightbox__nav">
+    <button type="button" data-lightbox-prev>Previous</button>
+    <button type="button" data-lightbox-next>Next</button>
+  </div>
+</dialog>
+
+<script>
+  const root = document.querySelector("[data-photo-gallery]");
+  const dialog = document.querySelector("[data-photo-lightbox]");
+  if (root && dialog instanceof HTMLDialogElement) {
+    const img = dialog.querySelector("[data-lightbox-img]");
+    const caption = dialog.querySelector("[data-lightbox-caption]");
+    const items = [...root.querySelectorAll(".photo-gallery__item")];
+    let index = 0;
+
+    function show(i) {
+      index = (i + items.length) % items.length;
+      const btn = items[index];
+      const thumb = btn.querySelector("img");
+      if (!(img instanceof HTMLImageElement) || !(thumb instanceof HTMLImageElement)) return;
+      img.src = thumb.src;
+      img.alt = thumb.alt;
+      if (caption) caption.textContent = thumb.alt;
+      if (!dialog.open) dialog.showModal();
+    }
+
+    root.addEventListener("click", (e) => {
+      const btn = e.target.closest(".photo-gallery__item");
+      if (!btn) return;
+      const i = items.indexOf(btn);
+      if (i >= 0) show(i);
+    });
+
+    dialog.querySelector("[data-lightbox-prev]")?.addEventListener("click", () => show(index - 1));
+    dialog.querySelector("[data-lightbox-next]")?.addEventListener("click", () => show(index + 1));
+
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (!dialog.open) return;
+      if (e.key === "ArrowLeft") show(index - 1);
+      if (e.key === "ArrowRight") show(index + 1);
+    });
+  }
+</script>

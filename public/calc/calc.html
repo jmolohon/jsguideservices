@@ -1,58 +1,365 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Fish Weight Calculator</title><!--
-<link href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" _wpro_href="file:///C|/move2G/temp/oneColFixCtr.css" rel="stylesheet" type="text/css" />-->
-<link type="text/css" href="https://code.jquery.com/ui/1.10.3/themes/start/jquery-ui.css" rel="stylesheet" />
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script type="text/javascript" src="js/fishcalc.js"></script>
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  background: #ad845a;
-  color: #0f0f0f;
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
-  font-size: 12px;
-}
-label{
-    display: inline-block;
-    float: left;
-    clear: left;
-    width: 75px;
-    text-align: right;
-padding-right: 5px;
-}
-input {
-  display: inline-block;
-  float: left;
-  background: transparent;
-}
-select {
-  background: #fff;
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fish Weight Calculator</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #ad845a;
+      color: #0f0f0f;
+      font-family: "Open Sans", Helvetica, Arial, sans-serif;
+      font-size: 12px;
+    }
+    .fish-calc {
+      width: 225px;
+      text-align: left;
+      padding: 4px 2px 8px;
+      box-sizing: border-box;
+    }
+    .fish-calc h6 {
+      margin: 0 0 8px;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .fish-calc .row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .fish-calc label {
+      flex: 0 0 75px;
+      text-align: right;
+      padding-right: 5px;
+      box-sizing: border-box;
+    }
+    .fish-calc select {
+      background: #fff;
+      max-width: 130px;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .fish-block {
+      width: 218px;
+      margin: 0 auto 4px;
+    }
+    .fish-viz {
+      position: relative;
+      width: 218px;
+      height: 152px;
+      margin: 2px auto 0;
+    }
+    .fish-viz__stage {
+      position: absolute;
+      left: 48px;
+      right: 2px;
+      top: 36px;
+      bottom: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+    }
+    .fish-viz__svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .fish-viz__fish-back { fill: #3d5c2e; }
+    .fish-viz__fish-body { fill: #8a9a3d; stroke: #2f4018; stroke-width: 1.1; }
+    .fish-viz__fish-side { fill: #c4a84a; }
+    .fish-viz__fish-belly { fill: #f3efe3; }
+    .fish-viz__fish-fin { fill: #6b7a32; stroke: #2f4018; stroke-width: 0.9; }
+    .fish-viz__fish-fin-tip { fill: #f5f5f0; stroke: #2f4018; stroke-width: 0.7; }
+    .fish-viz__fish-eye-white { fill: #f7f4e8; }
+    .fish-viz__fish-eye { fill: #1a1a1a; }
+    .fish-viz__fish-gold { fill: #d4af37; }
+    .fish-viz__fish-line { fill: none; stroke: #2f4018; stroke-width: 0.9; stroke-linecap: round; }
+
+    /* Girth: [vertical label] [vertical slider] [horizontal value] | fish */
+    .dim-girth {
+      position: absolute;
+      left: 0;
+      top: 36px;
+      bottom: 2px;
+      width: 46px;
+      display: grid;
+      grid-template-columns: 12px 16px 14px;
+      align-items: stretch;
+      column-gap: 4px;
+    }
+    .dim-girth[hidden] { display: none !important; }
+    .dim-girth__name {
+      writing-mode: vertical-lr;
+      text-orientation: upright;
+      align-self: center;
+      justify-self: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #581c00;
+      letter-spacing: 0.06em;
+      line-height: 1;
+    }
+    .dim-girth__rail {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+    }
+    .dim-girth__value {
+      align-self: center;
+      justify-self: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #581c00;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      white-space: nowrap;
+      padding-left: 2px;
+      margin-left: 2px;
+    }
+
+    /* Length: label above, slider, value below */
+    .dim-length {
+      position: absolute;
+      left: 48px;
+      right: 2px;
+      top: 0;
+      height: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 4px;
+    }
+    .dim-length__name,
+    .dim-length__value {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #581c00;
+      line-height: 1.1;
+    }
+
+    .dim-length__rail {
+      display: flex;
+      align-items: center;
+      height: 16px;
+    }
+
+    .fish-calc input[type="range"] {
+      --slider-blue: #79c9ec;
+      --slider-blue-dark: #2191c0;
+      --slider-green: #8cce3b;
+      --slider-green-dark: #70b62d;
+      accent-color: var(--slider-blue-dark);
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .fish-calc input[type="range"].slider-h {
+      width: 100%;
+      height: 16px;
+    }
+    .fish-calc input[type="range"].slider-v {
+      width: 68px;
+      height: 16px;
+      transform: rotate(-90deg);
+      transform-origin: center center;
+    }
+    .fish-calc input[type="range"]::-webkit-slider-runnable-track {
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to bottom, #aed9f5 0%, var(--slider-blue) 50%, #4eb8e2 100%);
+      border: 1px solid var(--slider-blue-dark);
+    }
+    .fish-calc input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      margin-top: -5px;
+      border-radius: 50%;
+      background: linear-gradient(to bottom, #bfe8fb 0%, var(--slider-blue) 45%, var(--slider-blue-dark) 100%);
+      border: 1px solid var(--slider-blue-dark);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+    }
+    .fish-calc input[type="range"]::-webkit-slider-thumb:active {
+      background: linear-gradient(to bottom, #c6ef7a 0%, var(--slider-green) 45%, var(--slider-green-dark) 100%);
+      border-color: var(--slider-green-dark);
+    }
+    .fish-calc input[type="range"]::-moz-range-track {
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to bottom, #aed9f5 0%, var(--slider-blue) 50%, #4eb8e2 100%);
+      border: 1px solid var(--slider-blue-dark);
+    }
+    .fish-calc input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(to bottom, #bfe8fb 0%, var(--slider-blue) 45%, var(--slider-blue-dark) 100%);
+      border: 1px solid var(--slider-blue-dark);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+    }
+    .fish-calc input[type="range"]::-moz-range-thumb:active {
+      background: linear-gradient(to bottom, #c6ef7a 0%, var(--slider-green) 45%, var(--slider-green-dark) 100%);
+      border-color: var(--slider-green-dark);
+    }
+
+    /* Center scale under the fish stage (offset past girth column) */
+    .scale {
+      width: calc(100% - 50px);
+      margin: 2px 2px 0 48px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .scale__hook {
+      width: 2px;
+      height: 10px;
+      margin: 0 auto;
+      background: #444;
+    }
+    .scale__body {
+      margin: 0 auto;
+      width: 92px;
+      padding: 6px 8px 8px;
+      background: linear-gradient(to bottom, #6e6e6e 0%, #3d3d3d 55%, #2a2a2a 100%);
+      border: 1px solid #1a1a1a;
+      border-radius: 6px 6px 10px 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    .scale__face {
+      background: #e8e4d8;
+      border: 2px solid #222;
+      border-radius: 4px;
+      padding: 4px 4px 3px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
+    }
+    .scale__readout {
+      display: block;
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #1a1a1a;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      padding: 0;
+    }
+    .scale__caption {
+      margin: 3px 0 0;
+      color: #cfcfcf;
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .scale__pan {
+      width: 70px;
+      height: 6px;
+      margin: 0 auto;
+      background: linear-gradient(to bottom, #888, #555);
+      border-radius: 0 0 40% 40%;
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    }
+  </style>
 </head>
-<body class="oneColFixCtr">
-<form style="width: 225px; text-align: left" id="form1" name="form1" method="post" action="">
-<h6>Calculate fish weight by adjusting the length &amp;	girth sliders .</h6>
-<div style="margin-bottom: 15px"><label for="Species">Select:</label><select id="Species" size="0" onchange="fnSpeciesChange(this.value)">
-<option value="0" selected="selected">Species</option>
-<option value="1">Walleye</option>
-<option value="2">Northern Pike</option>
-<option value="2">Muskie</option>
-<option value="3">Bass</option>
-<option value="0">Trout</option>
-<option value="4">Crappie</option>
-<option value="4">Bluegill</option>    </select></div>
-<div style="margin-top: 10px; clear: both">
-<div id="slider-horizontal" style="width: 180px; margin: 10px"></div>
-<div id="slider-vertical" style="height: 50px; margin-top: -40px; float: right"></div>
-</div>
-<div style="margin-bottom: 10px"><label for="amount">Length:</label><input type="text" id="amount" style="border: 0; width: 3em; color: #581c00; font-weight: bold" disabled="disabled" /></div>
-<div id="jsx" style="height: 20px; margin: 20px 0 10px 0"><label for="girth">Girth:</label><input type="text" id="girth" style="border: 0; width: 3em; color: #581c00; font-weight: bold" disabled="disabled" /></div>
-<div style="margin-top: 10px; clear: both"><label for="weight">Weight:</label><input type="text" id="weight" style="border: 0; width: 7em; color: #581c00; font-weight: bold" disabled="disabled" /></div>    </form>
+<body>
+  <form class="fish-calc" id="form1" name="form1" action="#" method="get" onsubmit="return false;">
+    <h6>Drag the length &amp; girth controls around the fish to estimate weight.</h6>
+
+    <div class="row">
+      <label for="Species">Select:</label>
+      <select id="Species" name="Species">
+        <option value="0" data-species="default" selected>Species</option>
+        <option value="1" data-species="walleye">Walleye</option>
+        <option value="2" data-species="pike">Northern Pike</option>
+        <option value="2" data-species="muskie">Muskie</option>
+        <option value="3" data-species="bass">Bass</option>
+        <option value="0" data-species="trout">Trout</option>
+        <option value="4" data-species="crappie">Crappie</option>
+        <option value="4" data-species="bluegill">Bluegill</option>
+      </select>
+    </div>
+
+    <div class="fish-block">
+    <div class="fish-viz">
+      <div class="dim-girth" id="dim-girth">
+        <span class="dim-girth__name">Girth</span>
+        <div class="dim-girth__rail">
+          <input
+            type="range"
+            id="slider-girth"
+            class="slider-v"
+            min="4"
+            max="26"
+            step="0.5"
+            value="16"
+            aria-label="Girth in inches"
+            aria-orientation="vertical"
+          />
+        </div>
+        <span class="dim-girth__value" id="dim-girth-value">16"</span>
+      </div>
+
+      <div class="fish-viz__stage" aria-hidden="true">
+        <svg id="fish-svg" class="fish-viz__svg" viewBox="0 0 220 90" preserveAspectRatio="xMidYMid meet">
+          <g id="fish-group" transform="translate(110 45) scale(1 1) translate(-110 -45)"></g>
+        </svg>
+      </div>
+
+      <div class="dim-length">
+        <div class="dim-length__name">Length</div>
+        <div class="dim-length__rail">
+          <input
+            type="range"
+            id="slider-length"
+            class="slider-h"
+            min="8"
+            max="42"
+            step="0.5"
+            value="25"
+            aria-label="Length in inches"
+          />
+        </div>
+        <div class="dim-length__value" id="dim-length-value">25"</div>
+      </div>
+    </div>
+
+    <div class="scale" aria-live="polite">
+      <div class="scale__hook"></div>
+      <div class="scale__body">
+        <div class="scale__face">
+          <input type="text" id="weight" class="scale__readout" readonly tabindex="-1" value="8 Lbs 0 Oz" />
+        </div>
+        <p class="scale__caption">Weight</p>
+      </div>
+      <div class="scale__pan"></div>
+    </div>
+    </div>
+
+    <input type="text" id="amount" class="sr-only" readonly tabindex="-1" />
+    <input type="text" id="girth" class="sr-only" readonly tabindex="-1" />
+  </form>
+  <script src="js/fishcalc.js"></script>
 </body>
 </html>

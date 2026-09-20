@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local preview / scratch
+_preview_*/
+_preview_*.zip
+_calc_*.zip
+_fix_*.py
+_trophies_extract.json

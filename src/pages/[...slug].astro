@@ -14,7 +14,7 @@ export function getStaticPaths() {
   const pagesPath = join(process.cwd(), "src/content/pages.json");
   const allPages: PageRecord[] = JSON.parse(readFileSync(pagesPath, "utf8"));
   return allPages
-    .filter((p) => p.slug !== "home-3")
+    .filter((p) => p.slug !== "home-3" && p.slug !== "trophies" && p.slug !== "2020-pictures")
     .map((p) => ({
       params: { slug: p.slug },
       props: { page: p },

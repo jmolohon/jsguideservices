@@ -1,0 +1,19 @@
+﻿---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoGallery from "../components/PhotoGallery.astro";
+import { pictures2020 } from "../data/pictures2020";
+---
+
+<BaseLayout title="2020 Pictures" currentPath="/2020-pictures/">
+  <article id="post-2020-pictures" class="post type-page status-publish hentry">
+    <header class="entry-header">
+      <h1 class="entry-title">2020 Pictures</h1>
+    </header>
+    <div class="entry-content">
+      <p>
+        Highlights from the 2020 season. Click any photo to view it larger.
+      </p>
+      <PhotoGallery photos={pictures2020} />
+    </div>
+  </article>
+</BaseLayout>

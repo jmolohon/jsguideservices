@@ -1,0 +1,20 @@
+﻿---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoGallery from "../components/PhotoGallery.astro";
+import { trophyPhotos } from "../data/trophies";
+---
+
+<BaseLayout title="Trophy Room - Years Past" currentPath="/trophies/">
+  <article id="post-trophies" class="post type-page status-publish hentry">
+    <header class="entry-header">
+      <h1 class="entry-title">Trophy Room &#8211; Years Past</h1>
+    </header>
+    <div class="entry-content">
+      <p>
+        A look back at memorable catches from guided trips across Central
+        Minnesota. Click any photo to view it larger.
+      </p>
+      <PhotoGallery photos={trophyPhotos} />
+    </div>
+  </article>
+</BaseLayout>
